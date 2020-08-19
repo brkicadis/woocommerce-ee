@@ -10,3 +10,5 @@ jobs:
         uses: brkicadis/pr-lint@master
         with:
           branch: ${{ github.head_ref }}
+      - name: Check files
+        run: ls
