@@ -1,11 +1,25 @@
-name: PR lint
+name: Pull Request Lint
 
 on: pull_request
 
 jobs:
   pr-lint:
-    runs-on: ubuntu-latest
+    name: Pull Request Lint
+    runs-on: ubuntu-18.04
     steps:
-    - uses: seferov/pr-lint-action@master
-      with:
-        title-regex: '^RC-(([0-9])+\.){2}([0-9])+-(patch|minor|major)'
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+      - name: Lint Pull Request
+        uses: pataraco/pr-lint-action@v0.0.0
+        with:
+          title-regex: '^(RC-(([0-9])+\.){2}([0-9])+-(patch|minor|major))$|-(test|documentation|feature|configuration|force)$|^(dependabot)'
+          repo-token: "${{ secrets.WORKFLOW_TOKEN }}"
+          on-failed-regex-comment: |
+            The PR title failed this RegEx!
+            - `%regex%`
+            Here are some accepted PR title examples
+            - [Feature] JIRA-XXXX Lorem Ipsum
+            - [Hotfix] JIRA-XXXX Lorem Ipsum
+            - [Bugfix] JIRA-XXXX Lorem Ipsum
+            - [Chore] Lorem Ipsum
+            - [Release] Lorem Ipsum
