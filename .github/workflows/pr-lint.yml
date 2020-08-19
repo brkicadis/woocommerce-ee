@@ -1,11 +1,11 @@
-name: PR Lint
+name: PR lint
 
-on: [pull_request]
+on: pull_request
 
 jobs:
-  pr_lint:
+  pr-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: vijaykramesh/pr-lint-action@v1.0
-    env:
-      GITHUB_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
+    - uses: seferov/pr-lint-action@master
+      with:
+        title-regex: '^(RC-(([0-9])+\.){2}([0-9])+-(patch|minor|major))'
